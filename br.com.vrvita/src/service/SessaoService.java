@@ -27,14 +27,14 @@ public class SessaoService {
 
         // Definir pontuação inicial como 0 e status como 'Falha'
         sessao.setPontuacao(0.0);
-        sessao.setStatusExercicio("Falha");
+        sessao.setStatusExercicio(0);
 
         // Inserir nova sessão
         sessaoDAO.inserirSessao(sessao);
     }
     
-    public void finalizarSessao(int idSessao, double pontuacao, String statusExercicio) throws SQLException {
-        Sessao sessao = (Sessao) sessaoDAO.buscarSessoesPorUsuario(idSessao);
+    public void finalizarSessao(int idSessao, double pontuacao, int statusExercicio) throws SQLException {
+        Sessao sessao =  sessaoDAO.buscarSessoesPorId(idSessao);
         
         if (sessao == null) {
             throw new IllegalArgumentException("Sessão não encontrada.");
@@ -44,8 +44,8 @@ public class SessaoService {
         if (pontuacao < 0 || pontuacao > 10) {
             throw new IllegalArgumentException("Pontuação deve estar entre 0 e 10.");
         }
-        if (!statusExercicio.equals("Sucesso") && !statusExercicio.equals("Falha")) {
-            throw new IllegalArgumentException("Status inválido. Deve ser 'Sucesso' ou 'Falha'.");
+        if (statusExercicio != 0 && statusExercicio != 1) {
+            throw new IllegalArgumentException("Status inválido. Deve ser 0 ou 1.");
         }
 
         sessao.setPontuacao(pontuacao);

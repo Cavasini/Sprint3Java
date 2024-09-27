@@ -17,14 +17,13 @@ public class WhenRequestUsuarioServiceFunctions {
 
 	public static void testeCadastrarUsuario(UsuarioService usuarioService) {
 	    Usuario novoUsuario = new Usuario();
-	    novoUsuario.setIdUsuario(2);
 	    novoUsuario.setNome("João Silva");
 	    novoUsuario.setEmail("joao@gmail.com");
 	    novoUsuario.setSenha("senha123");
-	    novoUsuario.setTipoUsuario("Estudante");
+	    novoUsuario.setTipoUsuario("E");
 	    novoUsuario.setEspecialidade("medicina");
 	    novoUsuario.setInstituicao("UFRJ");
-	    novoUsuario.setNivelExperiencia("Iniciante");
+	    novoUsuario.setNivelExperiencia(1);
 	    novoUsuario.setDataNascimento(Date.valueOf("1990-01-01"));
 	    novoUsuario.setDataCadastro(new Date(System.currentTimeMillis()));
 
@@ -108,12 +107,12 @@ public class WhenRequestUsuarioServiceFunctions {
 			
 			stmt = conn.createStatement();
 			
-//			testeCadastrarUsuario(new UsuarioService(preparedStatement, conn));
+			testeCadastrarUsuario(new UsuarioService(preparedStatement, conn));
 //			testeBuscarUsuarioPorId(new UsuarioService(preparedStatement, conn));
 //			testeListarUsuarios(new UsuarioService(preparedStatement, conn));
 //			testeAtualizarUsuario(new UsuarioService(preparedStatement, conn));
 //			testeDeletarUsuario(new UsuarioService(preparedStatement, conn));
-			testeUsuarioExiste(new UsuarioService(preparedStatement, conn));
+//			testeUsuarioExiste(new UsuarioService(preparedStatement, conn));
 		}catch (SQLException e) {
 	        e.printStackTrace();
 	    }

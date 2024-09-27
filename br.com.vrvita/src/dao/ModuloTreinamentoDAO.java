@@ -25,7 +25,7 @@ public class ModuloTreinamentoDAO {
                      "VALUES (?, ?, ?)";
         try  {
         	stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, modulo.getIdModulo());
+            stmt.setInt(1, getNextId(conn));
             stmt.setString(2, modulo.getNomeModulo());
             stmt.setString(3, modulo.getDescricao());
 
@@ -102,5 +102,27 @@ public class ModuloTreinamentoDAO {
         }
         return modulos;
     }
+    
+    public int getNextId(Connection connection) {
+        int nextId = 0;
+        String sql = "SELECT MAX(id_modulo) AS maior_id FROM Modulos_Treinamento";  // Consulta para contar os nomes
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int maiorId = rs.getInt("maior_id");
+                    // Verifica se o resultado foi NULL
+                    if (!rs.wasNull()) {
+                        nextId = maiorId + 1;  // Incrementa o maior ID
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return nextId;  // Retorna o próximo ID
+    }
+
 }
 

@@ -27,11 +27,11 @@ public class UsuarioDAO {
 	        throw new IllegalArgumentException("E-mail inválido.");
 	    }
 
-	    if (!List.of("Estudante", "Médico", "Residente").contains(usuario.getTipoUsuario())) {
+	    if (!List.of("E", "M", "R").contains(usuario.getTipoUsuario())) {
 	        throw new IllegalArgumentException("Tipo de usuário inválido.");
 	    }
 
-	    if (!List.of("Iniciante", "Intermediário", "Avançado").contains(usuario.getNivelExperiencia())) {
+	    if (!List.of(1, 2, 3).contains(usuario.getNivelExperiencia())) {
 	        throw new IllegalArgumentException("Nível de experiência inválido.");
 	    }
 
@@ -44,7 +44,7 @@ public class UsuarioDAO {
 	        stmt.setString(5, usuario.getTipoUsuario());
 	        stmt.setString(6, usuario.getEspecialidade());
 	        stmt.setString(7, usuario.getInstituicao());
-	        stmt.setString(8, usuario.getNivelExperiencia());
+	        stmt.setInt(8, usuario.getNivelExperiencia());
 	        stmt.setDate(9, new java.sql.Date(usuario.getDataNascimento().getTime()));
 	        stmt.executeUpdate();
 	    } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class UsuarioDAO {
                     usuario.setTipoUsuario(rs.getString("tipo_usuario"));
                     usuario.setEspecialidade(rs.getString("especialidade"));
                     usuario.setInstituicao(rs.getString("instituicao"));
-                    usuario.setNivelExperiencia(rs.getString("nivel_experiencia"));
+                    usuario.setNivelExperiencia(rs.getInt("nivel_experiencia"));
                     usuario.setDataNascimento(rs.getDate("data_nascimento"));
                     usuario.setDataCadastro(rs.getDate("data_cadastro"));
                     return usuario;
@@ -91,7 +91,7 @@ public class UsuarioDAO {
             stmt.setString(4, usuario.getTipoUsuario());
             stmt.setString(5, usuario.getEspecialidade());
             stmt.setString(6, usuario.getInstituicao());
-            stmt.setString(7, usuario.getNivelExperiencia());
+            stmt.setInt(7, usuario.getNivelExperiencia());
             stmt.setDate(8, new java.sql.Date(usuario.getDataNascimento().getTime()));
             stmt.setInt(9, usuario.getIdUsuario());
 
@@ -127,7 +127,7 @@ public class UsuarioDAO {
                 usuario.setTipoUsuario(rs.getString("tipo_usuario"));
                 usuario.setEspecialidade(rs.getString("especialidade"));
                 usuario.setInstituicao(rs.getString("instituicao"));
-                usuario.setNivelExperiencia(rs.getString("nivel_experiencia"));
+                usuario.setNivelExperiencia(rs.getInt("nivel_experiencia"));
                 usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setDataCadastro(rs.getDate("data_cadastro"));
                 usuarios.add(usuario);
@@ -142,12 +142,16 @@ public class UsuarioDAO {
     
     public int getNextId(Connection connection) {
         int nextId = 0;
-        String sql = "SELECT COUNT(nome) AS quantidade_nomes FROM Usuarios";  // Consulta para contar os nomes
+        String sql = "SELECT MAX(id_usuario) AS maior_id FROM Usuarios";  // Consulta para contar os nomes
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    nextId = rs.getInt("quantidade_nomes") + 1;  // Incrementa o valor para usar como próximo ID
+                    int maiorId = rs.getInt("maior_id");
+                    // Verifica se o resultado foi NULL
+                    if (!rs.wasNull()) {
+                        nextId = maiorId + 1;  // Incrementa o maior ID
+                    }
                 }
             }
         } catch (SQLException e) {

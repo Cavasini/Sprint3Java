@@ -12,7 +12,7 @@ public class Usuario {
     private String tipoUsuario;
     private String especialidade;
     private String instituicao;
-    private String nivelExperiencia;
+    private int nivelExperiencia;
     private Date dataNascimento;
     private Date dataCadastro;
     
@@ -38,7 +38,7 @@ public class Usuario {
 	public String getInstituicao() {
 		return instituicao;
 	}
-	public String getNivelExperiencia() {
+	public int getNivelExperiencia() {
 		return nivelExperiencia;
 	}
 	public Date getDataNascimento() {
@@ -76,7 +76,7 @@ public class Usuario {
 		this.instituicao = instituicao;
 	}
 
-	public void setNivelExperiencia(String nivelExperiencia) {
+	public void setNivelExperiencia(int nivelExperiencia) {
 		this.nivelExperiencia = nivelExperiencia;
 	}
 

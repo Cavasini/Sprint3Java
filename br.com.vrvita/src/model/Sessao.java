@@ -11,7 +11,7 @@ public class Sessao {
     private Date dataInicio;
     private Date dataFim;
     private double pontuacao;  // Pontuação do exercício
-    private String statusExercicio; // "Sucesso" ou "Falha"
+    private int statusExercicio; // "Sucesso" ou "Falha"
 	
     public int getIdSessao() {
 		return idSessao;
@@ -31,7 +31,7 @@ public class Sessao {
 	public double getPontuacao() {
 		return pontuacao;
 	}
-	public String getStatusExercicio() {
+	public int getStatusExercicio() {
 		return statusExercicio;
 	}
 	
@@ -53,7 +53,7 @@ public class Sessao {
 	public void setPontuacao(double pontuacao) {
 		this.pontuacao = pontuacao;
 	}
-	public void setStatusExercicio(String statusExercicio) {
+	public void setStatusExercicio(int statusExercicio) {
 		this.statusExercicio = statusExercicio;
 	}
 
