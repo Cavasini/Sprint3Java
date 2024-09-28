@@ -12,11 +12,11 @@ import connection.ConnectionProperties;
 import model.Exercicio;
 import service.ExercicioService;
 
-public class WhenRequestExercicioServiceFunctions {
+public class TestesExercicio {
 
     public static void testeInserirExercicio(ExercicioService exercicioService) {
         Exercicio novoExercicio = new Exercicio();
-        novoExercicio.setIdModulo(4); // Supondo que existe um módulo com ID 1
+        novoExercicio.setIdModulo(1); // Supondo que existe um módulo com ID 1
         novoExercicio.setNomeExercicio("Exercício de Laparoscopia");
         novoExercicio.setDescricao("Treinamento básico em laparoscopia.");
         novoExercicio.setDificuldade("F");
@@ -56,7 +56,7 @@ public class WhenRequestExercicioServiceFunctions {
 
     public static void testeAtualizarExercicio(ExercicioService exercicioService) {
         try {
-            Exercicio exercicio = exercicioService.buscarExercicioPorId(4); // Assumindo que o exercício com ID 1 já existe
+            Exercicio exercicio = exercicioService.buscarExercicioPorId(1); // Assumindo que o exercício com ID 1 já existe
             if (exercicio != null) {
                 exercicio.setDescricao("Treinamento avançado em laparoscopia.");
                 exercicio.setDificuldade("D");
@@ -72,16 +72,15 @@ public class WhenRequestExercicioServiceFunctions {
 
     public static void testeDeletarExercicio(ExercicioService exercicioService) {
         try {
-            exercicioService.deletarExercicio(0); // Assumindo que o exercício com ID 1 existe
+            exercicioService.deletarExercicio(1); // Assumindo que o exercício com ID 1 existe
             System.out.println("Exercício deletado com sucesso.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
+    
+    public void testes(Connection conn) {
         try {
-            Connection conn = null;
             PreparedStatement preparedStatement = null;
 
             String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
@@ -92,13 +91,15 @@ public class WhenRequestExercicioServiceFunctions {
 
             // Testes das funções
             testeInserirExercicio(exercicioService);
-//            testeBuscarExercicioPorId(exercicioService);
-//            testeListarExercicios(exercicioService);
-//            testeAtualizarExercicio(exercicioService);
-//            testeDeletarExercicio(exercicioService);
+            testeBuscarExercicioPorId(exercicioService);
+            testeListarExercicios(exercicioService);
+            testeAtualizarExercicio(exercicioService);
+            testeDeletarExercicio(exercicioService);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
 }

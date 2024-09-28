@@ -12,7 +12,7 @@ import connection.ConnectionProperties;
 import model.Usuario;
 import service.UsuarioService;
 
-public class WhenRequestUsuarioServiceFunctions {
+public class TestesUsuario {
 	
 
 	public static void testeCadastrarUsuario(UsuarioService usuarioService) {
@@ -61,7 +61,7 @@ public class WhenRequestUsuarioServiceFunctions {
 	
 	public static void testeAtualizarUsuario(UsuarioService usuarioService) {
 	    try {
-	        Usuario usuario = usuarioService.buscarUsuarioPorId(2); // Assumindo que o usuário com ID 2 já existe
+	        Usuario usuario = usuarioService.buscarUsuarioPorId(1); // Assumindo que o usuário com ID 1 já existe
 	        if (usuario != null) {
 	            usuario.setEmail("novoemail@gmail.com");
 	            usuarioService.atualizarUsuario(usuario);
@@ -76,7 +76,7 @@ public class WhenRequestUsuarioServiceFunctions {
 
 	public static void testeDeletarUsuario(UsuarioService usuarioService) {
 	    try {
-	        usuarioService.deletarUsuario(3); // Assumindo que o usuário com ID 3 existe
+	        usuarioService.deletarUsuario(1); // Assumindo que o usuário com ID 1 existe
 	        System.out.println("Usuário deletado com sucesso.");
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -95,10 +95,8 @@ public class WhenRequestUsuarioServiceFunctions {
 	    }
 	}
 	
-	
-	public static void main(String[] args) {
+	public void testes(Connection conn) {
 		try {
-			Connection conn = null;
 			Statement stmt = null;
 			 PreparedStatement preparedStatement = null;
 			
@@ -108,15 +106,17 @@ public class WhenRequestUsuarioServiceFunctions {
 			stmt = conn.createStatement();
 			
 			testeCadastrarUsuario(new UsuarioService(preparedStatement, conn));
-//			testeBuscarUsuarioPorId(new UsuarioService(preparedStatement, conn));
-//			testeListarUsuarios(new UsuarioService(preparedStatement, conn));
-//			testeAtualizarUsuario(new UsuarioService(preparedStatement, conn));
-//			testeDeletarUsuario(new UsuarioService(preparedStatement, conn));
-//			testeUsuarioExiste(new UsuarioService(preparedStatement, conn));
+			testeBuscarUsuarioPorId(new UsuarioService(preparedStatement, conn));
+			testeListarUsuarios(new UsuarioService(preparedStatement, conn));
+			testeAtualizarUsuario(new UsuarioService(preparedStatement, conn));
+			testeDeletarUsuario(new UsuarioService(preparedStatement, conn));
+			testeUsuarioExiste(new UsuarioService(preparedStatement, conn));
+			
+			
 		}catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}
-
+	
 	
 }

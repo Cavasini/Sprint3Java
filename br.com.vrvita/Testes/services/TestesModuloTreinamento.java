@@ -10,7 +10,7 @@ import connection.ConnectionProperties;
 import model.ModuloTreinamento;
 import service.ModuloTreinamentoService;
 
-public class WhenRequestModuloTreinamentoServiceFunctions {
+public class TestesModuloTreinamento{
 
     public static void testeInserirModulo(ModuloTreinamentoService moduloService) {
         ModuloTreinamento novoModulo = new ModuloTreinamento();
@@ -27,7 +27,7 @@ public class WhenRequestModuloTreinamentoServiceFunctions {
 
     public static void testeBuscarModuloPorId(ModuloTreinamentoService moduloService) {
         try {
-            ModuloTreinamento modulo = moduloService.buscarModuloPorId(3);// Assumindo que o módulo com ID 1 já existe
+            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1);// Assumindo que o módulo com ID 1 já existe
             if (modulo != null) {
                 System.out.println("Módulo encontrado: " + modulo.getNomeModulo());
             } else {
@@ -40,7 +40,7 @@ public class WhenRequestModuloTreinamentoServiceFunctions {
 
     public static void testeAtualizarModulo(ModuloTreinamentoService moduloService) {
         try {
-            ModuloTreinamento modulo = moduloService.buscarModuloPorId(3); // Assumindo que o módulo com ID 1 já existe
+            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1); // Assumindo que o módulo com ID 1 já existe
             if (modulo != null) {
                 modulo.setNomeModulo("Laparoscopia Avançada");
                 modulo.setDescricao("Módulo avançado para técnicas avançadas de laparoscopia.");
@@ -56,7 +56,7 @@ public class WhenRequestModuloTreinamentoServiceFunctions {
 
     public static void testeDeletarModulo(ModuloTreinamentoService moduloService) {
         try {
-        	moduloService.deletarModulo(2);
+        	moduloService.deletarModulo(1);
             System.out.println("Módulo deletado com sucesso.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,10 +73,9 @@ public class WhenRequestModuloTreinamentoServiceFunctions {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
+    
+    public void testes(Connection conn) {
         try {
-            Connection conn = null;
             PreparedStatement preparedStatement = null;
             String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
             conn = DriverManager.getConnection(url, ConnectionProperties.getConnection());
@@ -95,4 +94,5 @@ public class WhenRequestModuloTreinamentoServiceFunctions {
             e.printStackTrace();
         }
     }
+
 }

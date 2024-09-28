@@ -108,7 +108,6 @@ public class SessaoDAO {
                     if (!rs.wasNull()) {
                         nextId = maiorId + 1;  // Incrementa o maior ID
                     }
-                    System.out.println(nextId);
                 }
             }
         } catch (SQLException e) {

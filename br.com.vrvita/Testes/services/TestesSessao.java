@@ -12,12 +12,12 @@ import connection.ConnectionProperties;
 import model.Sessao;
 import service.SessaoService;
 
-public class WhenRequestSessaoServiceFunctions {
+public class TestesSessao {
 
     public static void testeIniciarSessao(SessaoService sessaoService) {
         try {
-            int idUsuario = 4;
-            int idExercicio = 4;
+            int idUsuario = 1;
+            int idExercicio = 1;
             Date dataInicio = new Date(System.currentTimeMillis());
             
             sessaoService.iniciarSessao(idUsuario, idExercicio, dataInicio);
@@ -29,7 +29,7 @@ public class WhenRequestSessaoServiceFunctions {
 
     public static void testeFinalizarSessao(SessaoService sessaoService) {
         try {
-            int idSessao = 3; // Assumindo que a sessão com ID 1 já existe
+            int idSessao = 1; // Assumindo que a sessão com ID 1 já existe
             double pontuacao = 8.5;
             int statusExercicio = 1;
 
@@ -42,7 +42,7 @@ public class WhenRequestSessaoServiceFunctions {
 
     public static void testeBuscarSessoesPorUsuario(SessaoService sessaoService) {
         try {
-            int idUsuario = 4; // Assumindo que o usuário com ID 1 tem sessões registradas
+            int idUsuario = 1; // Assumindo que o usuário com ID 1 tem sessões registradas
             List<Sessao> sessoes = sessaoService.buscarSessoesPorUsuario(idUsuario);
             for (Sessao sessao : sessoes) {
                 System.out.println("Sessão: " + sessao.getIdSessao() + ", Exercicio: " + sessao.getIdExercicio());
@@ -51,10 +51,9 @@ public class WhenRequestSessaoServiceFunctions {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
+    
+    public void testes(Connection conn) {
         try {
-            Connection conn = null;
             Statement stmt = null;
             PreparedStatement preparedStatement = null;
 
@@ -65,9 +64,9 @@ public class WhenRequestSessaoServiceFunctions {
 
             SessaoService sessaoService = new SessaoService(preparedStatement, conn);
 
-//            testeIniciarSessao(sessaoService);
+            testeIniciarSessao(sessaoService);
             testeFinalizarSessao(sessaoService);
-//            testeBuscarSessoesPorUsuario(sessaoService);
+            testeBuscarSessoesPorUsuario(sessaoService);
 
         } catch (SQLException e) {
             e.printStackTrace();

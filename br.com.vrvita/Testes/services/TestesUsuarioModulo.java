@@ -10,12 +10,12 @@ import java.util.List;
 import connection.ConnectionProperties;
 import dao.UsuarioModuloDAO;
 
-public class WhenRequestUsuarioModuloServiceFunctions {
+public class TestesUsuarioModulo {
 
     public static void testeInscreverUsuarioEmModulo(UsuarioModuloDAO usuarioModuloDAO) {
         try {
-            int idUsuario = 5; // ID do usuário que será inscrito no módulo
-            int idModulo = 5;  // ID do módulo no qual o usuário será inscrito
+            int idUsuario = 1; // ID do usuário que será inscrito no módulo
+            int idModulo = 1;  // ID do módulo no qual o usuário será inscrito
 
             usuarioModuloDAO.inscreverUsuarioEmModulo(idUsuario, idModulo);
             System.out.println("Usuário inscrito no módulo com sucesso.");
@@ -26,7 +26,7 @@ public class WhenRequestUsuarioModuloServiceFunctions {
 
     public static void testeBuscarModulosPorUsuario(UsuarioModuloDAO usuarioModuloDAO) {
         try {
-            int idUsuario = 4; // ID do usuário cujos módulos serão buscados
+            int idUsuario = 1; // ID do usuário cujos módulos serão buscados
 
             List<Integer> modulos = usuarioModuloDAO.buscarModulosPorUsuario(idUsuario);
             if (modulos.isEmpty()) {
@@ -43,8 +43,8 @@ public class WhenRequestUsuarioModuloServiceFunctions {
 
     public static void testeRemoverUsuarioDeModulo(UsuarioModuloDAO usuarioModuloDAO) {
         try {
-            int idUsuario = 4; // ID do usuário que será removido do módulo
-            int idModulo = 4;  // ID do módulo do qual o usuário será removido
+            int idUsuario = 1; // ID do usuário que será removido do módulo
+            int idModulo = 1;  // ID do módulo do qual o usuário será removido
 
             usuarioModuloDAO.removerUsuarioDeModulo(idUsuario, idModulo);
             System.out.println("Usuário removido do módulo com sucesso.");
@@ -52,10 +52,9 @@ public class WhenRequestUsuarioModuloServiceFunctions {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
+    
+    public void testes(Connection conn ) {
         try {
-            Connection conn = null;
             Statement stmt = null;
             PreparedStatement preparedStatement = null;
 
@@ -66,7 +65,7 @@ public class WhenRequestUsuarioModuloServiceFunctions {
 
             UsuarioModuloDAO usuarioModuloDAO = new UsuarioModuloDAO(preparedStatement, conn);
 
-//            testeInscreverUsuarioEmModulo(usuarioModuloDAO);
+            testeInscreverUsuarioEmModulo(usuarioModuloDAO);
             testeBuscarModulosPorUsuario(usuarioModuloDAO);
             testeRemoverUsuarioDeModulo(usuarioModuloDAO);
 
@@ -74,5 +73,6 @@ public class WhenRequestUsuarioModuloServiceFunctions {
             e.printStackTrace();
         }
     }
+
 }
 
