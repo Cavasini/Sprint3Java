@@ -1,8 +1,4 @@
-/connection/
-/dao/
-/model/
-/module-info.class
-/service/
-/services/
 /main/
+/services/
+/dao/
 /manager/

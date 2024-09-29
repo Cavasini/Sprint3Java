@@ -12,8 +12,8 @@ import model.Exercicio;
 public class ExercicioService {
     private ExercicioDAO exercicioDAO;
 
-    public ExercicioService(PreparedStatement stmt, Connection conn) {
-        this.exercicioDAO = new ExercicioDAO(stmt,conn);
+    public ExercicioService(Connection conn) {
+        this.exercicioDAO = new ExercicioDAO(conn);
     }
 
     public void cadastrarExercicio(Exercicio exercicio) throws SQLException {
@@ -36,12 +36,10 @@ public class ExercicioService {
         exercicioDAO.deletarExercicio(idExercicio);
     }
 
-    // Verificar se o exercício existe com base no ID
     public boolean exercicioExiste(int idExercicio) throws SQLException {
         return buscarExercicioPorId(idExercicio) != null;
     }
 
-    // Listar exercícios de um módulo específico
     public List<Exercicio> listarExerciciosPorModulo(int idModulo) throws SQLException {
         List<Exercicio> todosExercicios = listarExercicios();
         List<Exercicio> exerciciosDoModulo = new ArrayList<>();

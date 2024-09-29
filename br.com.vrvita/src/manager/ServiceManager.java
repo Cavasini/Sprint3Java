@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package manager;
 
 import connection.ConnectionProperties;
@@ -29,18 +24,17 @@ public class ServiceManager {
 
     private ServiceManager() throws SQLException {
         try {
-            this.connection = DriverManager.getConnection("jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL", ConnectionProperties.getConnection());
+            this.connection = DriverManager.getConnection(url, ConnectionProperties.getConnection());
             this.preparedStatement = null;
-            this.exercicioService = new ExercicioService(this.preparedStatement, this.connection);
-            this.moduloTreinamentoService = new ModuloTreinamentoService(this.preparedStatement, this.connection);
-            this.sessaoService = new SessaoService(this.preparedStatement, this.connection);
-            this.usuarioModuloService = new UsuarioModuloService(this.preparedStatement, this.connection);
-            this.usuarioService = new UsuarioService(this.preparedStatement, this.connection);
-            
-        } catch (Exception var2) {
-            Exception e = var2;
-            e.printStackTrace();
-            throw new SQLException("Driver JDBC não encontrado.");
+            this.exercicioService = new ExercicioService(this.connection);
+            this.moduloTreinamentoService = new ModuloTreinamentoService(this.connection);
+            this.sessaoService = new SessaoService(this.connection);
+            this.usuarioModuloService = new UsuarioModuloService(this.connection);
+            this.usuarioService = new UsuarioService(this.connection);
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao estabelecer conexão com o banco de dados: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new SQLException("Erro inesperado ao inicializar o ServiceManager: " + e.getMessage(), e);
         }
     }
 
@@ -50,7 +44,6 @@ public class ServiceManager {
         } else if (instance.connection.isClosed()) {
             instance = new ServiceManager();
         }
-
         return instance;
     }
 
@@ -78,15 +71,13 @@ public class ServiceManager {
         return this.connection;
     }
 
-    public void closeConnection() {
+    public void closeConnection() throws SQLException {
         try {
             if (this.connection != null && !this.connection.isClosed()) {
                 this.connection.close();
             }
-        } catch (SQLException var2) {
-            SQLException e = var2;
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao fechar a conexão com o banco de dados: " + e.getMessage(), e);
         }
-
     }
 }

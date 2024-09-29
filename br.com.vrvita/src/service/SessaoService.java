@@ -14,8 +14,8 @@ public class SessaoService {
 	
 	private SessaoDAO sessaoDAO;
 	
-	public SessaoService(PreparedStatement stmt, Connection conn) {
-		this.sessaoDAO= new SessaoDAO(stmt, conn);
+	public SessaoService(Connection conn) {
+		this.sessaoDAO= new SessaoDAO(conn);
 	}
 	
     public void iniciarSessao(int idUsuario, int idExercicio, Date dataInicio) throws SQLException {
@@ -34,7 +34,7 @@ public class SessaoService {
     }
     
     public void finalizarSessao(int idSessao, double pontuacao, int statusExercicio) throws SQLException {
-        Sessao sessao =  sessaoDAO.buscarSessoesPorId(idSessao);
+        Sessao sessao =  sessaoDAO.buscarSessaoPorId(idSessao);
         
         if (sessao == null) {
             throw new IllegalArgumentException("Sessão não encontrada.");

@@ -12,8 +12,8 @@ public class UsuarioService {
     private UsuarioDAO usuarioDAO;
 	
 	
-	public UsuarioService(PreparedStatement stmt, Connection conn) {
-		this.usuarioDAO = new UsuarioDAO(stmt,conn);
+	public UsuarioService(Connection conn) {
+		this.usuarioDAO = new UsuarioDAO(conn);
 	}
 	
 

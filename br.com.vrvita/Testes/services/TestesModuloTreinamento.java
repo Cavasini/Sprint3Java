@@ -1,8 +1,6 @@
 package services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,37 +8,52 @@ import connection.ConnectionProperties;
 import model.ModuloTreinamento;
 import service.ModuloTreinamentoService;
 
-public class TestesModuloTreinamento{
+public class TestesModuloTreinamento {
 
-    public static void testeInserirModulo(ModuloTreinamentoService moduloService) {
+    private ModuloTreinamentoService moduloService;
+
+    // Construtor que recebe a conexão como parâmetro
+    public TestesModuloTreinamento(Connection conn) {
+        this.moduloService = new ModuloTreinamentoService(conn);
+    }
+
+    public void executarTestes() {
+        testeInserirModulo();
+        testeBuscarModuloPorId();
+        testeAtualizarModulo();
+        testeListarModulos();
+//        testeDeletarModulo();
+    }
+
+    private void testeInserirModulo() {
         ModuloTreinamento novoModulo = new ModuloTreinamento();
         novoModulo.setNomeModulo("Introdução à Laparoscopia");
         novoModulo.setDescricao("Módulo básico para introdução ao uso de laparoscópios.");
 
         try {
-        	moduloService.cadastrarModulo(novoModulo);
+            moduloService.cadastrarModulo(novoModulo);
             System.out.println("Módulo inserido com sucesso.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao inserir módulo: " + e.getMessage());
         }
     }
 
-    public static void testeBuscarModuloPorId(ModuloTreinamentoService moduloService) {
+    private void testeBuscarModuloPorId() {
         try {
-            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1);// Assumindo que o módulo com ID 1 já existe
+            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1);
             if (modulo != null) {
                 System.out.println("Módulo encontrado: " + modulo.getNomeModulo());
             } else {
                 System.out.println("Módulo não encontrado.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao buscar módulo: " + e.getMessage());
         }
     }
 
-    public static void testeAtualizarModulo(ModuloTreinamentoService moduloService) {
+    private void testeAtualizarModulo() {
         try {
-            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1); // Assumindo que o módulo com ID 1 já existe
+            ModuloTreinamento modulo = moduloService.buscarModuloPorId(1);
             if (modulo != null) {
                 modulo.setNomeModulo("Laparoscopia Avançada");
                 modulo.setDescricao("Módulo avançado para técnicas avançadas de laparoscopia.");
@@ -50,49 +63,27 @@ public class TestesModuloTreinamento{
                 System.out.println("Módulo não encontrado.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao atualizar módulo: " + e.getMessage());
         }
     }
 
-    public static void testeDeletarModulo(ModuloTreinamentoService moduloService) {
+    private void testeDeletarModulo() {
         try {
-        	moduloService.deletarModulo(1);
+            moduloService.deletarModulo(1);
             System.out.println("Módulo deletado com sucesso.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao deletar módulo: " + e.getMessage());
         }
     }
 
-    public static void testeListarModulos(ModuloTreinamentoService moduloService) {
+    private void testeListarModulos() {
         try {
             List<ModuloTreinamento> modulos = moduloService.listarModulos();
             for (ModuloTreinamento modulo : modulos) {
                 System.out.println("Módulo: " + modulo.getNomeModulo());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao listar módulos: " + e.getMessage());
         }
     }
-    
-    public void testes(Connection conn) {
-        try {
-            PreparedStatement preparedStatement = null;
-            String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-            conn = DriverManager.getConnection(url, ConnectionProperties.getConnection());
-
-            // Criando uma instância de ModuloTreinamentoDAO para passar nos testes
-            ModuloTreinamentoService moduloService = new ModuloTreinamentoService(preparedStatement, conn);
-
-            // Chamando os métodos de teste
-            testeInserirModulo(moduloService);
-            testeBuscarModuloPorId(moduloService);
-            testeAtualizarModulo(moduloService);
-            testeListarModulos(moduloService);
-            testeDeletarModulo(moduloService);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

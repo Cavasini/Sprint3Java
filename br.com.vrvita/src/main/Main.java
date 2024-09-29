@@ -13,7 +13,7 @@ import services.TestesUsuario;
 import services.TestesUsuarioModulo;
 
 public class Main {
-
+	
     public static void main(String[] args) {
         try {
             ServiceManager serviceManager = ServiceManager.getInstance();
@@ -21,17 +21,17 @@ public class Main {
             ExercicioService exercicioService = serviceManager.getExercicioService();
             SessaoService sessaoService = serviceManager.getSessaoService();
             
-            TestesUsuario testeUsuario = new TestesUsuario();
-            TestesSessao testeSessao = new TestesSessao();
-            TestesExercicio testesExercicio = new TestesExercicio();
-            TestesUsuarioModulo testeUsuarioModulo = new TestesUsuarioModulo();
-            TestesModuloTreinamento testesModuloTreinamento = new TestesModuloTreinamento();
+            TestesUsuario testeUsuario = new TestesUsuario(serviceManager.getConnection());
+            TestesSessao testeSessao = new TestesSessao(serviceManager.getConnection());
+            TestesExercicio testesExercicio = new TestesExercicio(serviceManager.getConnection());
+            TestesUsuarioModulo testeUsuarioModulo = new TestesUsuarioModulo(serviceManager.getConnection());
+            TestesModuloTreinamento testesModuloTreinamento = new TestesModuloTreinamento(serviceManager.getConnection());
             
-            testeUsuario.testes(serviceManager.getConnection());
-            testeSessao.testes(serviceManager.getConnection());
-            testesExercicio.testes(serviceManager.getConnection());
-            testeUsuarioModulo.testes(serviceManager.getConnection());
-            testesModuloTreinamento.testes(serviceManager.getConnection());
+            testeUsuario.executarTestes();;
+            testeSessao.executarTestes();
+            testesExercicio.executarTestes();
+            testeUsuarioModulo.executarTestes();
+            testesModuloTreinamento.executarTestes();
             
         } catch (SQLException var10) {
             SQLException e = var10;

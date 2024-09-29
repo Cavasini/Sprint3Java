@@ -11,8 +11,8 @@ import model.ModuloTreinamento;
 public class ModuloTreinamentoService {
     private ModuloTreinamentoDAO moduloDAO;
 
-    public ModuloTreinamentoService(PreparedStatement stmt, Connection conn) {
-        this.moduloDAO = new ModuloTreinamentoDAO(stmt, conn);
+    public ModuloTreinamentoService(Connection conn) {
+        this.moduloDAO = new ModuloTreinamentoDAO(conn);
     }
 
     public void cadastrarModulo(ModuloTreinamento modulo) throws SQLException {

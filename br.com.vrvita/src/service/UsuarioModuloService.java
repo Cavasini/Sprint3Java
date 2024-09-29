@@ -10,8 +10,8 @@ import dao.UsuarioModuloDAO;
 public class UsuarioModuloService {
     private UsuarioModuloDAO usuarioModuloDAO;
 
-    public UsuarioModuloService(PreparedStatement stmt, Connection conn) {
-        this.usuarioModuloDAO = new UsuarioModuloDAO(stmt, conn);
+    public UsuarioModuloService( Connection conn) {
+        this.usuarioModuloDAO = new UsuarioModuloDAO( conn);
     }
 
     public void inscreverUsuarioEmModulo(int idUsuario, int idModulo) throws SQLException {

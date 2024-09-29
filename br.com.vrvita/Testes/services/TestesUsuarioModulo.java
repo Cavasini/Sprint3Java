@@ -1,18 +1,27 @@
 package services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import connection.ConnectionProperties;
 import dao.UsuarioModuloDAO;
 
 public class TestesUsuarioModulo {
 
-    public static void testeInscreverUsuarioEmModulo(UsuarioModuloDAO usuarioModuloDAO) {
+    private UsuarioModuloDAO usuarioModuloDAO;
+
+    // Construtor que recebe a conexão como parâmetro
+    public TestesUsuarioModulo(Connection conn) {
+        this.usuarioModuloDAO = new UsuarioModuloDAO(conn);
+    }
+
+    public void executarTestes() {
+        testeInscreverUsuarioEmModulo();
+        testeBuscarModulosPorUsuario();
+//        testeRemoverUsuarioDeModulo();
+    }
+
+    private void testeInscreverUsuarioEmModulo() {
         try {
             int idUsuario = 1; // ID do usuário que será inscrito no módulo
             int idModulo = 1;  // ID do módulo no qual o usuário será inscrito
@@ -20,11 +29,11 @@ public class TestesUsuarioModulo {
             usuarioModuloDAO.inscreverUsuarioEmModulo(idUsuario, idModulo);
             System.out.println("Usuário inscrito no módulo com sucesso.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao inscrever usuário no módulo: " + e.getMessage());
         }
     }
 
-    public static void testeBuscarModulosPorUsuario(UsuarioModuloDAO usuarioModuloDAO) {
+    private void testeBuscarModulosPorUsuario() {
         try {
             int idUsuario = 1; // ID do usuário cujos módulos serão buscados
 
@@ -37,11 +46,11 @@ public class TestesUsuarioModulo {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao buscar módulos do usuário: " + e.getMessage());
         }
     }
 
-    public static void testeRemoverUsuarioDeModulo(UsuarioModuloDAO usuarioModuloDAO) {
+    private void testeRemoverUsuarioDeModulo() {
         try {
             int idUsuario = 1; // ID do usuário que será removido do módulo
             int idModulo = 1;  // ID do módulo do qual o usuário será removido
@@ -49,30 +58,7 @@ public class TestesUsuarioModulo {
             usuarioModuloDAO.removerUsuarioDeModulo(idUsuario, idModulo);
             System.out.println("Usuário removido do módulo com sucesso.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao remover usuário do módulo: " + e.getMessage());
         }
     }
-    
-    public void testes(Connection conn ) {
-        try {
-            Statement stmt = null;
-            PreparedStatement preparedStatement = null;
-
-            String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-            conn = DriverManager.getConnection(url, ConnectionProperties.getConnection());
-
-            stmt = conn.createStatement();
-
-            UsuarioModuloDAO usuarioModuloDAO = new UsuarioModuloDAO(preparedStatement, conn);
-
-            testeInscreverUsuarioEmModulo(usuarioModuloDAO);
-            testeBuscarModulosPorUsuario(usuarioModuloDAO);
-            testeRemoverUsuarioDeModulo(usuarioModuloDAO);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
-
